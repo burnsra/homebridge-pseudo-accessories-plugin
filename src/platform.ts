@@ -20,36 +20,36 @@ export class PseudoPlatform implements DynamicPlatformPlugin {
         public readonly api: API,
     ) {
 
-        this.log.debug('Finished initializing platform:', this.config.name);
-        this.api.on('didFinishLaunching', () => {
-            this.log.debug('Executed didFinishLaunching callback');
-            this.discoverDevices();
-        });
+      this.log.debug('Finished initializing platform:', this.config.name);
+      this.api.on('didFinishLaunching', () => {
+        this.log.debug('Executed didFinishLaunching callback');
+        this.discoverDevices();
+      });
     }
 
     configureAccessory(accessory: PlatformAccessory) {
-        this.log.info('Loading accessory from cache:', accessory.displayName);
-        this.accessories.push(accessory);
+      this.log.info('Loading accessory from cache:', accessory.displayName);
+      this.accessories.push(accessory);
     }
 
     discoverDevices() {
-        if (this.config['accessories']) {
-            for (const device of this.config['accessories']) {
+      if (this.config['accessories']) {
+        for (const device of this.config['accessories']) {
 
-                const uuid = this.api.hap.uuid.generate(device.name + device.accessoryType);
-                const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
+          const uuid = this.api.hap.uuid.generate(device.name + device.accessoryType);
+          const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
 
-                if (existingAccessory) {
-                    this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName);
-                    new PseudoAccessory(this, existingAccessory);
-                } else {
-                    this.log.info('Adding new accessory:', device.name);
-                    const accessory = new this.api.platformAccessory(device.name, uuid);
-                    accessory.context.device = device;
-                    new PseudoAccessory(this, accessory);
-                    this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
-                }
-            }
+          if (existingAccessory) {
+            this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName);
+            new PseudoAccessory(this, existingAccessory);
+          } else {
+            this.log.info('Adding new accessory:', device.name);
+            const accessory = new this.api.platformAccessory(device.name, uuid);
+            accessory.context.device = device;
+            new PseudoAccessory(this, accessory);
+            this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+          }
         }
+      }
     }
 }
