@@ -1,0 +1,50 @@
+{
+  "private": true,
+  "displayName": "Homebridge Pseudo Accessories",
+  "name": "homebridge-pseudo-accessories-plugin",
+  "version": "1.0.0",
+  "description": "Homebridge plugin to create pseudo accessories",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/burnsra/homebridge-pseudo-accessories-plugin.git"
+  },
+  "dependencies": {
+    "homebridge-framework": ">=1.3.0",
+    "node-persist": "^2.1.0"
+  },
+  "bugs": {
+    "url": "https://github.com/burnsra/homebridge-pseudo-accessories-plugin/issues"
+  },
+  "engines": {
+    "node": ">=16.10.0",
+    "homebridge": ">=1.3.0"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "build": "rimraf ./dist && tsc",
+    "lint": "eslint src/**.ts --max-warnings=0",
+    "prepublishOnly": "npm run lint && npm run build",
+    "postpublish": "npm run clean",
+    "watch": "npm run build && npm link && nodemon"
+  },
+  "keywords": [
+    "homebridge",
+    "homebridge-plugin",
+    "homekit",
+    "mock",
+    "pseudo"
+  ],
+  "devDependencies": {
+    "@types/node": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "eslint": "latest",
+    "homebridge": "latest",
+    "nodemon": "latest",
+    "rimraf": "latest",
+    "ts-node": "latest",
+    "typescript": "latest"
+  }
+}

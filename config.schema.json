@@ -1,0 +1,79 @@
+{
+    "pluginAlias": "Pseudo",
+    "pluginType": "platform",
+    "singular": true,
+    "headerDisplay": "Homebridge plugin to create pseudo accessories",
+    "footerDisplay": "This plugin is provided by [@burnsra](https://github.com/burnsra).",
+    "schema": {
+        "type": "object",
+        "properties": {
+            "name": {
+                "title": "Name",
+                "type": "string",
+                "default": "Pseudo",
+                "description": "The name that will appear as the bridge and in the logs."
+            },
+            "debug": {
+                "title": "Debug Mode",
+                "type": "boolean",
+                "default": false,
+                "description": "Enable additional logging.  In particular, accessory activity logging."
+            },
+            "accessories": {
+                "title": "Accessories",
+                "type": "array",
+                "description": "The pseudo accessories that will be available.",
+                "items": {
+                    "title": "Accessory",
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "title": "Name",
+                            "type": "string",
+                            "required": true
+                        },
+                        "accessoryType": {
+                            "title": "Accessory Type",
+                            "type": "string",
+                            "default":"light",
+                            "oneOf": [
+                                {
+                                    "title": "Light",
+                                    "enum": [
+                                        "light"
+                                    ]
+                                },
+                                {
+                                    "title": "Outlet",
+                                    "enum": [
+                                        "outlet"
+                                    ]
+                                },
+                                {
+                                    "title": "Switch",
+                                    "enum": [
+                                        "switch"
+                                    ]
+                                }
+                            ],
+                            "required": true
+                        },
+                        "sensorType": {
+                            "title": "Sensor Type",
+                            "type": "string",
+                            "oneOf": [
+                                {
+                                    "title": "Contact",
+                                    "enum": [
+                                        "contact"
+                                    ]
+                                }
+                            ],
+                            "required": false
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
