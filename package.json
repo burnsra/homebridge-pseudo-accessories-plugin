@@ -1,5 +1,5 @@
 {
-  "private": true,
+  "private": false,
   "displayName": "Homebridge Pseudo Accessories",
   "name": "homebridge-pseudo-accessories-plugin",
   "version": "1.0.0",
