@@ -33,15 +33,21 @@ export class PseudoPlatform implements DynamicPlatformPlugin {
     }
 
     discoverDevices() {
-      if (this.config['accessories']) {
+      if (this.config['accessories'] && this.config['accessories'].length > 0) {
         for (const device of this.config['accessories']) {
 
           const uuid = this.api.hap.uuid.generate(device.name + device.accessoryType);
           const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
 
           if (existingAccessory) {
-            this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName);
-            new PseudoAccessory(this, existingAccessory);
+            if (device) {
+              this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName);
+              new PseudoAccessory(this, existingAccessory);
+              this.api.updatePlatformAccessories([existingAccessory]);
+            } else if (!device) {
+              this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [existingAccessory]);
+              this.log.info('Removing existing accessory from cache:', existingAccessory.displayName);
+            }
           } else {
             this.log.info('Adding new accessory:', device.name);
             const accessory = new this.api.platformAccessory(device.name, uuid);
@@ -50,6 +56,18 @@ export class PseudoPlatform implements DynamicPlatformPlugin {
             this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
           }
         }
+      } else {
+        if (this.accessories.length > 0) {
+          this.log.info('Removing accessories...');
+          for (const existingAccessory of this.accessories) {
+            this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [existingAccessory]);
+          }
+        }
       }
+    }
+
+    removeAccessory (accessory) {
+      this.log.info('Remove accessory', accessory.displayName);
+      this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
     }
 }

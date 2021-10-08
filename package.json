@@ -2,7 +2,7 @@
   "private": false,
   "displayName": "Homebridge Pseudo Accessories",
   "name": "homebridge-pseudo-accessories-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Homebridge plugin to create pseudo accessories",
   "license": "Apache-2.0",
   "repository": {
@@ -24,7 +24,7 @@
   "scripts": {
     "clean": "rimraf ./dist",
     "build": "rimraf ./dist && tsc",
-    "lint": "eslint src/**.ts --max-warnings=0",
+    "lint": "eslint src/**.ts --max-warnings=0 --fix",
     "prepublishOnly": "npm run lint && npm run build",
     "postpublish": "npm run clean",
     "watch": "npm run build && npm link && nodemon"

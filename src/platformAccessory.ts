@@ -1,11 +1,11 @@
-import { Service, PlatformAccessory, CharacteristicValue, ChangeReason } from 'homebridge';
+import { PlatformAccessory, CharacteristicValue, ChangeReason } from 'homebridge';
 
 import { PseudoPlatform } from './platform';
 
 export class PseudoAccessory {
     private cacheDirectory: string;
-    private service: Service;
-    private contact;
+    private service;
+    private sensor;
     private storage;
     private state: boolean;
 
@@ -52,8 +52,20 @@ export class PseudoAccessory {
 
         switch (this.accessory.context.device.sensorType) {
           case 'contact':
-            this.contact = this.accessory.getService(this.platform.Service.ContactSensor) ||
+            this.sensor = this.accessory.getService(this.platform.Service.ContactSensor) ||
                 this.accessory.addService(this.platform.Service.ContactSensor);
+            break;
+          case 'light':
+            this.sensor = this.accessory.getService(this.platform.Service.LightSensor) ||
+                this.accessory.addService(this.platform.Service.LightSensor);
+            break;
+          case 'motion':
+            this.sensor = this.accessory.getService(this.platform.Service.MotionSensor) ||
+                this.accessory.addService(this.platform.Service.MotionSensor);
+            break;
+          case 'occupancy':
+            this.sensor = this.accessory.getService(this.platform.Service.OccupancySensor) ||
+                this.accessory.addService(this.platform.Service.OccupancySensor);
             break;
           default:
             this.platform.log.error(
@@ -80,15 +92,28 @@ export class PseudoAccessory {
     }
 
     async setOn(value: CharacteristicValue, context) {
-      if (this.contact) {
-        this.contact.setCharacteristic(this.platform.Characteristic.ContactSensorState, (value as boolean ? 1 : 0));
+      const on = value as boolean;
+      if (this.sensor) {
+        switch (this.accessory.context.device.sensorType) {
+          case 'contact':
+            this.sensor.setCharacteristic(this.platform.Characteristic.ContactSensorState, (on ? 1 : 0));
+            break;
+          case 'motion':
+            this.sensor.setCharacteristic(this.platform.Characteristic.MotionDetected, (on ? 1 : 0));
+            break;
+          case 'occupancy':
+            this.sensor.setCharacteristic(this.platform.Characteristic.OccupancyDetected, (on ? 1 : 0));
+            break;
+          default:
+            break;
+        }
       }
 
-      if (this.state === value as boolean) {
+      if (this.state === on) {
         this.service.getCharacteristic(this.platform.Characteristic.On)
           .emit('change', {
-            oldValue: value as boolean,
-            newValue: value as boolean,
+            oldValue: on,
+            newValue: on,
             reason: ChangeReason.EVENT,
             context: context,
           });
@@ -97,12 +122,12 @@ export class PseudoAccessory {
           'Setting',
           this.accessory.context.device.name,
           '(' + this.accessory.context.device.accessoryType + ')',
-            value as boolean ? 'On' : 'Off',
+          on ? 'On' : 'Off',
         );
       }
 
-      this.storage.setItemSync(this.accessory.context.device.name, value as boolean);
+      this.storage.setItemSync(this.accessory.context.device.name, on);
 
-      this.state = value as boolean;
+      this.state = on;
     }
 }

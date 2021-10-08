@@ -38,6 +38,12 @@
                             "default":"light",
                             "oneOf": [
                                 {
+                                    "title": "Fan",
+                                    "enum": [
+                                        "fan"
+                                    ]
+                                },
+                                {
                                     "title": "Light",
                                     "enum": [
                                         "light"
@@ -66,6 +72,18 @@
                                     "title": "Contact",
                                     "enum": [
                                         "contact"
+                                    ]
+                                },
+                                {
+                                    "title": "Motion",
+                                    "enum": [
+                                        "motion"
+                                    ]
+                                },
+                                {
+                                    "title": "Occupancy",
+                                    "enum": [
+                                        "occupancy"
                                     ]
                                 }
                             ],
