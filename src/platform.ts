@@ -14,11 +14,12 @@ export class PseudoPlatform implements DynamicPlatformPlugin {
 
     public readonly accessories: PlatformAccessory[] = [];
     private readonly cacheAccessories: {
-      [uuid: string]: PlatformAccessory
-    } = {}
+      [uuid: string]: PlatformAccessory;
+    } = {};
+
     private readonly configAccessories: {
-      [uuid: string]: PlatformAccessory
-    } = {}
+      [uuid: string]: PlatformAccessory;
+    } = {};
 
     constructor(
         public readonly log: Logger,
@@ -31,14 +32,14 @@ export class PseudoPlatform implements DynamicPlatformPlugin {
         this.log.debug('Executed didFinishLaunching callback');
         this.discoverDevices();
       });
-      this.cacheAccessories = {}
-      this.configAccessories = {}
+      this.cacheAccessories = {};
+      this.configAccessories = {};
     }
 
     configureAccessory(accessory: PlatformAccessory) {
       this.log.info(`Loading accessory from cache ${accessory.displayName} (${accessory.UUID})`);
       this.accessories.push(accessory);
-      this.cacheAccessories[accessory.UUID] = accessory
+      this.cacheAccessories[accessory.UUID] = accessory;
     }
 
     discoverDevices() {
