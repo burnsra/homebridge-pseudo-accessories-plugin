@@ -2,7 +2,7 @@
   "private": false,
   "displayName": "Homebridge Pseudo Accessories",
   "name": "homebridge-pseudo-accessories-plugin",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Homebridge plugin to create pseudo accessories",
   "license": "Apache-2.0",
   "repository": {
