@@ -68,7 +68,7 @@ export class PseudoAccessory {
                 this.accessory.addService(this.platform.Service.OccupancySensor);
             break;
           default:
-            this.platform.log.error(
+            this.platform.log.debug(
               'Found Unknown Sensor Type:',
               this.accessory.context.device.name,
               '(' + this.accessory.context.device.sensorType + ')',
@@ -118,7 +118,7 @@ export class PseudoAccessory {
             context: context,
           });
       } else {
-        this.platform.log.debug(
+        this.platform.log.info(
           'Setting',
           this.accessory.context.device.name,
           '(' + this.accessory.context.device.accessoryType + ')',
