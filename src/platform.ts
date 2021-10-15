@@ -65,7 +65,7 @@ export class PseudoPlatform implements DynamicPlatformPlugin {
       }
       if (this['accessories'] && this['accessories'].length > 0) {
         for (const device of this['accessories']) {
-          if (!this.configAccessories.hasOwnProperty(device.UUID)) {
+          if (!Object.prototype.hasOwnProperty.call(this.configAccessories, device.UUID)) {
             this.removeAccessory(device);
           }
         }
