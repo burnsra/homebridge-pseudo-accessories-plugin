@@ -4,6 +4,16 @@ This code is heavily based on the work of Ed Coen's [homebridge-dummy-contact](h
 
 With this plugin, you can create any number of pseudo accessories that can be very useful for advanced automation with HomeKit scenes.
 
+Accessory Types:
+- Light
+- Outlet
+- Switch
+
+Sensor Types:
+- Contact
+- Motion
+- Occupancy
+
 Example config.json:
 ```
     {
